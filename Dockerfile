@@ -1,14 +1,20 @@
 FROM ruby:latest
 ENV DEBIAN_FRONTEND=noninteractive
 
-RUN apt-get update -y && apt-get install -y --no-install-recommends \
-    locales \
-    imagemagick \
-    build-essential \
-    zlib1g-dev \
-    jupyter-nbconvert \
-    inotify-tools procps && \
-    apt-get clean && rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/*
+RUN apt-get update -y && \
+    apt-get install -y --no-install-recommends \
+        locales \
+        imagemagick \
+        build-essential \
+        zlib1g-dev \
+        jupyter-nbconvert \
+        inotify-tools \
+        procps \
+        curl && \
+    curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && \
+    apt-get install -y nodejs && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/*
 
 
 RUN sed -i '/en_US.UTF-8/s/^# //g' /etc/locale.gen && \
